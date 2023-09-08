@@ -15,6 +15,17 @@ function [Qdot,f_qd_q_u,M,O] = vehicle_model_fw_simplified(q,input,delta_c, m_d_
 % NOTE: Check the "input_script.m" to understand the inputs inside the
 %       input structure
 
+% OUTPUTS
+% NOTE- The vectors and matrices that this function outputs are done so
+% keeping in mind future operations that this function will be used for 
+% EXAMPLE - This function may need to output controller states or estimator/observer states. The O_simulator will do that
+% EXAMPLE - The vehicle model may need to output complex variables like slip angle, slip ratio etc. The O_model will do that 
+
+%   Qdot        State vector time derivative
+%   f_qd_q_u    Forces & moments vector
+%   M           Mass matrix
+%   O           Model Outputs
+
 %% Initialization : System States
 x = q(1);
 y = q(2);

@@ -25,12 +25,15 @@ addpath(genpath(pwd));
 input_script;
 
 %% INITIALIZATION
+
+% The angular velocities of the wheel required a logical initial guess
 v_guess = input.u_start;
-omega_y_1_guess = v_guess/input.r_01;
+omega_y_1_guess = v_guess/input.r_01; % Simplified estimation of wheel angular velocity using vehicle speed and unloaded radius
 omega_y_2_guess = v_guess/input.r_02;
 omega_y_3_guess = v_guess/input.r_03;
 omega_y_4_guess = v_guess/input.r_04;
 
+% State vector initial conditions
 q0 = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 input.u_start 0 0 0 0 0 0 0 0 0 omega_y_1_guess omega_y_2_guess omega_y_3_guess omega_y_4_guess];
 
 %% SIMULATION :- Simulation Options
