@@ -1,4 +1,4 @@
-function [Q_dot,O_simulator,O_model] = vehicle_simulator(t, q,input)
+function [Q_dot,O_simulator,O_model] = vehicle_simulator(t, Q,input)
 %vehicle_simulator Simulator function that runs vehicle simulations
 %   This is a wrapping function that is called by the numerical integrator.
 %   It knows the current time-step and using it, it interpolates all the
@@ -14,7 +14,8 @@ delta_c = interp1(input.time, input.delta, t, 'pchip');
 
 m_d_c = 0;
 
-[Q_dot , ~ , ~ ,O_model] = vehicle_model_fw_simplified(q,input,delta_c,m_d_c);
+
+[Q_dot , ~ , ~ ,O_model] = vehicle_model_fw_simplified(Q,input,delta_c,m_d_c);
 
 O_simulator = [];
 

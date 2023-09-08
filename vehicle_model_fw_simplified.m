@@ -68,7 +68,7 @@ A_c0 = A_cb*A_ba*A_a0;
 
 %% Rotation Matrices - NSM - Corner 1
 A_a10 = [cos(psi + delta_c) sin(psi + delta_c) 0;
-       - sin(psi + delta_c) cos(psi + delta_c) 0;
+        -sin(psi + delta_c) cos(psi + delta_c) 0;
          0                     0               1]; % Assuming no Ackermann steering 
 
 % A_b1a1 = A_ba; % Assuming NSM will pitch at same angle as chassis
@@ -116,7 +116,7 @@ r = co_omega__c(3);
 
 TaitBryantAngle_d__0 = [(co_omega__0_1*cos(psi) + co_omega__0_2*sin(psi))/cos(phi);
                          co_omega__0_2*cos(psi) - co_omega__0_1*sin(psi);
-                        (co_omega__0_1*cos(phi) + co_omega__0_1*cos(psi)*sin(phi) + co_omega__0_2*sin(phi)*sin(psi))/cos(phi)];
+                        (co_omega__0_3*cos(phi) + co_omega__0_1*cos(psi)*sin(phi) + co_omega__0_2*sin(phi)*sin(psi))/cos(phi)];
 
 theta_dot = TaitBryantAngle_d__0(1);
 phi_dot = TaitBryantAngle_d__0(2);
@@ -167,25 +167,25 @@ r_L_4 = in.r_04 - Delta_t_4;
 % Corner 1
 Vx_1    =  (u - in.s_1*r)*cos(delta_c) + (v + in.a_1*r)*sin(delta_c);
 V_sy_1  = -(u - in.s_1*r)*sin(delta_c) + (v + in.a_1*r)*cos(delta_c);
-alpha_1__1 = -atan(V_sy_1/Vx_1);
+alpha_1__1 = -(V_sy_1/Vx_1);
 kappa_1__1 = -(Vx_1 - omega_1*r_L_1)/(Vx_1);
 
 % Corner 2
 Vx_2    =  (u - in.s_2*r)*cos(delta_c) + (v + in.a_2*r)*sin(delta_c);
 V_sy_2  = -(u - in.s_2*r)*sin(delta_c) + (v + in.a_2*r)*cos(delta_c);
-alpha_2__2 = -atan(V_sy_2/Vx_2);
+alpha_2__2 = -(V_sy_2/Vx_2);
 kappa_2__2 = -(Vx_2 - omega_2*r_L_2)/(Vx_2);
 
 % Corner 3
-Vx_3    =  (u - in.s_3*r)*cos(delta_c) + (v + in.a_3*r)*sin(delta_c);
-V_sy_3  = -(u - in.s_3*r)*sin(delta_c) + (v + in.a_3*r)*cos(delta_c);
-alpha_3__3 = -atan(V_sy_3/Vx_3);
+Vx_3    =  (u - in.s_3*r)*cos(0) + (v + in.a_3*r)*sin(0);
+V_sy_3  = -(u - in.s_3*r)*sin(0) + (v + in.a_3*r)*cos(0);
+alpha_3__3 = -(V_sy_3/Vx_3);
 kappa_3__3 = -(Vx_3 - omega_3*r_L_3)/(Vx_3);
 
 % Corner 3
-Vx_4    =  (u - in.s_4*r)*cos(delta_c) + (v + in.a_4*r)*sin(delta_c);
-V_sy_4  = -(u - in.s_4*r)*sin(delta_c) + (v + in.a_4*r)*cos(delta_c);
-alpha_4__4 = -atan(V_sy_4/Vx_4);
+Vx_4    =  (u - in.s_4*r)*cos(0) + (v + in.a_4*r)*sin(0);
+V_sy_4  = -(u - in.s_4*r)*sin(0) + (v + in.a_4*r)*cos(0);
+alpha_4__4 = -(V_sy_4/Vx_4);
 kappa_4__4 = -(Vx_4 - omega_4*r_L_4)/(Vx_4);
 
 %% Vector Formulation : Chassis CG to Contact Patch 
@@ -324,7 +324,7 @@ moment_wheel_4__4 = -F_cp4__4(1)*r_L_4 + m_d_c/4;
 %% Force & Moment Vector Formulation
 
 f_qd_q_u = [F_sm1__0 + F_sm2__0 + F_sm3__0 + F_sm4__0 + F_sm_g__0;
-            moment_chassis + moment_gryoscopic;
+            moment_chassis - moment_gryoscopic;
             F_nsm1__0_3;
             F_nsm2__0_3;
             F_nsm3__0_3;
@@ -344,7 +344,7 @@ Qdot = [q_d;
 
 M = M_Mat__0;
 
-O = [];
+O = [u];
 
 
 

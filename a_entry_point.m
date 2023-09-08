@@ -36,7 +36,7 @@ q0 = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 input.u_start 0 0 0 0 0 0 0 0 0 omega_y_1_gues
 %% SIMULATION :- Simulation Options
 
 % Initializing the options struct
-opts = odeset('MaxStep',0.05);
+opts = odeset('MaxStep',0.01);
 
 
 %% SIMULATION :- RUN 
