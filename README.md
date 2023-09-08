@@ -1,5 +1,13 @@
 # simplified_four_wheel_model
 
+#RUNNING THE MODEL
+a_entry_point.m                 -> As the name suggests, this is the entry script. Simply hitting PLAY inside this scrpt
+input_script.m                  -> To edit inputs
+vehicle_simulator.m             -> Wrapper function which is called by the ODE function. This function can contain controller, observer algorithms. This function calls the core vehicle model from within
+vehicle_model_fw_simplified.m   -> Core function containing the equations of motion of the vehicle model. This is function has only 1 role, accept some inputs and states, and calculate the forces and accelerations
+
+
+# DESCRIPTION
 This repository contains equations of a four wheel model in a simplified format.
 The model contains 14 degrees of freedom
 The states of the system are 
