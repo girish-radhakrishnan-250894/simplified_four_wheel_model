@@ -36,11 +36,8 @@ addpath(genpath(pwd));
 input.P_v_scaler = 0.003; % P_v is auto-set as 4.04007*m_s*g
 %% INPUT :- STEERING
 
-% input.delta = [0 0 0 0 deg2rad(3) deg2rad(3) 0 0 -deg2rad(3) -deg2rad(3) 0 0 0 0];
-% input.time  = [0 1 2 3 4 5 6 7 8 9 10 11 12 13];
-
-input.delta = 1*[0 0 0 0 deg2rad(1) deg2rad(1) deg2rad(1) deg2rad(1) deg2rad(1)];
-input.time  = [0 1 2 3 4 5 6 7 8];
+input.delta = 3*[0 0 0 0 deg2rad(1) deg2rad(1) 0 0 -deg2rad(1) -deg2rad(1) 0 0];
+input.time  =   [0 1 2 3 4 5 6 7 8 9 10 11];
 %% INPUT :- SPEED
 
 input.u_start = 50/3.6;
