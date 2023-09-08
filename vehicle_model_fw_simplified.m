@@ -26,6 +26,11 @@ function [Qdot,f_qd_q_u,M,O] = vehicle_model_fw_simplified(q,input,delta_c, m_d_
 %   M           Mass matrix
 %   O           Model Outputs
 
+
+% NOTE
+% __c   indicates chassis frame of refernece
+% __0   indicates world frame of reference
+% __i   indicates i frame of reference (i = 1,2,3,4)
 %% Initialization : System States
 x = q(1);
 y = q(2);
@@ -125,6 +130,9 @@ r = co_omega__c(3);
 
 %% Cardan angle velocities (rate of change of cardan angles)
 
+% Since the equations of motion are calculated using the angular velocity
+% vector, integration of this vector will NOT yield the cardan angles
+% Integrating the calculations below is what will yield the cardan angles
 TaitBryantAngle_d__0 = [(co_omega__0_1*cos(psi) + co_omega__0_2*sin(psi))/cos(phi);
                          co_omega__0_2*cos(psi) - co_omega__0_1*sin(psi);
                         (co_omega__0_3*cos(phi) + co_omega__0_1*cos(psi)*sin(phi) + co_omega__0_2*sin(phi)*sin(psi))/cos(phi)];
@@ -134,9 +142,9 @@ phi_dot = TaitBryantAngle_d__0(2);
 psi_dot = TaitBryantAngle_d__0(3);
 
 %% Chassis CG Velocity
-r_cm_d__0 = [x_d y_d z_d]';
+r_cm_d__0 = [x_d y_d z_d]'; % World frame
 
-r_cm_d__c = (r_cm_d__0'*A_c0')';
+r_cm_d__c = (r_cm_d__0'*A_c0')'; % Chassis frame
 
 u = r_cm_d__c(1);
 v = r_cm_d__c(2);
@@ -176,10 +184,10 @@ r_L_4 = in.r_04 - Delta_t_4;
 %% Slip Angles
 
 % Corner 1
-Vx_1    =  (u - in.s_1*r)*cos(delta_c) + (v + in.a_1*r)*sin(delta_c);
-V_sy_1  = -(u - in.s_1*r)*sin(delta_c) + (v + in.a_1*r)*cos(delta_c);
-alpha_1__1 = -(V_sy_1/Vx_1);
-kappa_1__1 = -(Vx_1 - omega_1*r_L_1)/(Vx_1);
+Vx_1    =  (u - in.s_1*r)*cos(delta_c) + (v + in.a_1*r)*sin(delta_c); % Longitudinal velocity at corner 1
+V_sy_1  = -(u - in.s_1*r)*sin(delta_c) + (v + in.a_1*r)*cos(delta_c); % Lateral velocity at corner 1 - lateral slip 
+alpha_1__1 = -(V_sy_1/Vx_1); % slip angle
+kappa_1__1 = -(Vx_1 - omega_1*r_L_1)/(Vx_1); % slip ratio. longitudinal slip = (Vx1 - omega_1*r_L_1)
 
 % Corner 2
 Vx_2    =  (u - in.s_2*r)*cos(delta_c) + (v + in.a_2*r)*sin(delta_c);
@@ -355,7 +363,8 @@ Qdot = [q_d;
 
 M = M_Mat__0;
 
-O = [u];
+O = [u
+     v];
 
 
 
